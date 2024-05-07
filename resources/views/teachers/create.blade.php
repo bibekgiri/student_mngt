@@ -1,9 +1,17 @@
 @extends('layout')
 @section('content')
- 
 <div class="card">
-  <div class="card-header">Teacher Page</div>
+  <div class="card-header">Teachers Page</div>
   <div class="card-body">
+      @if ($errors->any())
+          <div class="alert alert-danger">
+              <ul>
+                  @foreach ($errors->all() as $error)
+                      <li>{{ $error }}</li>
+                  @endforeach
+              </ul>
+          </div>
+      @endif
       
       <form action="{{ url('teachers') }}" method="post">
         {!! csrf_field() !!}

@@ -5,6 +5,12 @@
                     <div class="card-header">
                         <h2>Laravel 9 Crud</h2>
                     </div>
+                    @if (session('flash_message'))
+                <div
+                    class ="alert alert-success">
+                    {{session('flash_message')}}
+                </div>
+                @endif
                     <div class="card-body">
                         <a href="{{ url('/students/create') }}" class="btn btn-success btn-sm" title="Add New Student">
                             <i class="fa fa-plus" aria-hidden="true"></i> Add New

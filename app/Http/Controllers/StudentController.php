@@ -1,13 +1,16 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Providers\ValidationServiceProvider;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Response;
 use App\Models\Student;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
+use Illuminate\Validation\Rule;
+
+
 
 class StudentController extends Controller
 {
@@ -33,19 +36,32 @@ class StudentController extends Controller
     /*
      * Store a newly created resource in storage.
      */
+
     public function store(Request $request): RedirectResponse
     {
-        $input = $request->all();
-        Student::create($input);
-        return redirect('students')->with('flash_message', 'Student Addedd!');
+        $validated = $request->validate([
+            'name' => 'required|max:255',
+            'address' =>'required',
+            'mobile' => 'required|numeric|max:9999999999',
+
+        ],
+           ['mobile.numeric' => 'The mobile number must be numeric.',
+            'mobile.digits_between' => 'The mobile number must be between 1 and 10 digits.',
+           ]
+        );
+     
+    
+        Student::create($validated);
 
 
-        
+        // $input = $request->all();
+        // Student::create($input);
+        return redirect('students')->with('flash_message', 'Students Addedd!');
     }
 
-    /*
-     * Display the specified resource.
-     */
+    
+
+
     public function show(string $id): View
     {
         $students = Student::find($id);
